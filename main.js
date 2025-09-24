@@ -31,5 +31,47 @@ console.log(bbb);
 var bbb = 0;
 console.log(bbb);
 
-console.log(ccc); //letはundefinedが入らないので、宣言前に実行できずエラーになる
-let ccc = 0;
+// console.log(ccc); //letはundefinedが入らないので、宣言前に実行できずエラーになる
+// let ccc = 0;
+
+// スクリプトスコープとグローバルスコープ
+let scope_a = 0; //scriptに表示
+const scope_aa = 0; //scriptに表示
+var scope_b = 0; //globalのwindowに表示
+function scope_c(){}; //globalのwindowに表示
+
+let scope_d = 1;
+window.scope_d = 0;
+console.log(scope_d); //スコープチェーン 同じ変数名の場合、内側にある方が取得される
+                      // globalスコープ>scriptスコープ
+// debugger;
+
+//関数スコープ
+function scope_e(){
+  let scope_f = 2;
+  console.log(scope_f);
+};
+scope_e();
+// console.log(scope_f); //参照できずエラーになる
+
+//ブロックスコープ内ではletかconstを使う
+{
+  let scope_g = 2;
+  var scope_h = 2;
+  function scope_i(){
+    console.log('scope_i is called');
+  }
+  const scope_j = function scope_k(){
+    console.log('scope_k is called');
+  }
+  
+}
+// console.log(scope_g); //ブロックスコープ内で宣言されたので外では参照できずエラーになる
+// console.log(scope_h); //varは参照可能
+scope_i(); //関数は参照可能
+// scope_j(); //関数宣言時にconstに代入することでブロック外から参照できないようにする
+
+function fn(arg1, arg2){
+  console.log(arg1, arg2);
+}
+fn(0);  //グローバルの関数宣言の引数は、グローバル変数になるので、arg2にundefinedが入る
