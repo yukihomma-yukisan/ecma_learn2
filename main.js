@@ -74,4 +74,20 @@ scope_i(); //関数は参照可能
 function fn(arg1, arg2){
   console.log(arg1, arg2);
 }
-fn(0);  //グローバルの関数宣言の引数は、グローバル変数になるので、arg2にundefinedが入る
+fn(0);  //関数宣言の引数は、指定されないとundefinedが入る（arg2にundefined）
+
+//コールバック関数
+function hello(name){
+  console.log(`hello ${name}`);
+}
+
+function bye(name){
+  console.log(`bye ${name}`);
+}
+
+function greet(arg){
+  arg('Tom'); //引数オブジェクトを関数として実行する
+}
+
+greet(hello);
+greet(bye);
