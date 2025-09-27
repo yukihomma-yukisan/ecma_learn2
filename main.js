@@ -91,3 +91,61 @@ function greet(arg){
 
 greet(hello);
 greet(bye);
+
+//this　コンテキスト内のオブジェクトを取得する
+window.name = 'John';
+
+const person ={
+  name: 'Tom',
+  hello: function (){
+    console.log(`hello ${this.name}`); 
+  }
+}
+
+person.hello(); //関数コンテキスト Tomを取得する
+const ref = person.hello; //helloをpersonからrefにコピーする→コンテキストが変わった
+ref(); //John
+
+//bind thisの参照先を固定する
+const helloTom = person.hello.bind(person)
+function fn_bind(ref){
+  // ref();
+}
+fn_bind(person.hello) //John グローバル
+fn_bind(helloTom.hello) //Tom バインドしたので関数コンテキスト
+
+//bindはプロパティや引数も固定できる
+function bind_arg1(name){
+  console.log('hello ' + name);
+}
+// const bind_arg2 = bind_arg1.bind({name: 'Tim'}); //nameプロパティの値を固定
+const bind_arg2 = bind_arg1.bind(null, 'Tim'); //引数を固定
+
+bind_arg2('Tom'); //引数を渡しても、bindのTimが出力される
+
+//bindは実行されないが、call applyは即実行される
+function callapply(){
+  console.log('hello ' + this.name);
+}
+//bindの場合、わざわざbindしたものを変数に参照させてから変数を実行する必要がある
+callapply.apply({name: 'kathy'});
+callapply.call({name: 'Ellie'}); 
+
+//関数に引数がある場合、applyは配列で引数を渡せる（第２引数に配列を設定する）
+//引数がそれぞれ独立している場合はcallを使う
+const arry_apply = [1,2,3,4,5]
+const resultApply = Math.max.apply(null, arry_apply)
+console.log(resultApply)
+//上記はES5までの実装方法。ES6ではスプレッド演算子を使える
+// const resultApply = Math.max(...arry_apply)
+
+//アロー関数でthisを使うとレキシカルスコープ（１つ上のthisを参照する）
+const person_allow2 = {
+  name: 'Mike',
+  hello(){
+    console.log('hello ' + this.name);
+    const person_allow1 = () => console.log('bye ' + this.name); //１つ上なのでMikeを参照する
+    person_allow1();
+  }
+}
+person_allow2.hello();
