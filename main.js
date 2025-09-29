@@ -149,3 +149,42 @@ const person_allow2 = {
   }
 }
 person_allow2.hello();
+
+//コンストラクター関数 newがないとundefinedになる。
+//returnが設定されていない場合は__proto__が返ってくる
+//returnがオブジェクト以外の場合も__proto__が返ってくる
+function Person(name, age){
+  this.name = name;
+  this.age = age;
+};
+
+const person_list1 = new Person('Taro', 10);
+const person_list2 = new Person('Jiro', 11);
+const person_list3 = new Person('Saburo', 12);
+
+console.log(person_list1);
+console.log(person_list2);
+console.log(person_list3);
+
+//メソッドにnewはつけられない
+// const methodA = {
+//   person(name, age){
+//     this.name = name;
+//     this.age = age;
+//   }
+// }
+// const person_list4 = new methodA.person('Shiro', 13); //エラーになる
+// console.log(person_list4);
+
+//引数が配列の場合はpush、オブジェクトの場合はkeyで値を格納する
+//instaceofで参照元のオブジェクトを配列かどうか確認して条件分岐してあげると良い
+function PushOrKey(arg){
+  if(arg instanceof Array){
+    arg.push('value');
+  } else {
+    arg['key'] = 'value';
+  }
+  console.log(arg);
+}
+PushOrKey([]);
+PushOrKey({});
