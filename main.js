@@ -188,3 +188,39 @@ function PushOrKey(arg){
 }
 PushOrKey([]);
 PushOrKey({});
+
+// プロトタイプ継承 ES6以降はclassを使う
+// function Japanese(name, age, gender){
+//   Person.call(this, name, age) //クラスではsuperを使う。プロトタイプ継承ではcallを使う
+//   this.gender = gender;
+// }
+// Japanese.prototype = Object.create(Person.prototype)
+// Japanese.prototype.hello = function () {
+//   console.log(`Hello ${this.name}`); //アロー関数だとJohn。無名関数だとNattallie
+// }
+// const natallie = new Japanese('Natallie',14,'female');
+// console.log(natallie);
+// natallie.hello();
+
+// プロトタイプ継承をclassで書く場合
+class PersonClass{
+  constructor(name, age){
+    this.name = name;
+    this.age = age;
+  }
+  hello(){
+    console.log(`Hello ${this.name}`);
+  }
+}
+//クラス継承
+class Japanese extends PersonClass{
+  constructor(name, age, gender){
+    super(name, age); //callの場合はthisが必要 superは継承元のconstruntorを呼び出す
+    this.gender = gender;
+  }
+  hello(){
+    console.log(`Hello ${this.name}`);
+  }
+}
+const natallie = new Japanese('Natallie',14,'female');
+console.log(natallie);
