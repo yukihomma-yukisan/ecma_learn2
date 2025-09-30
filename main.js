@@ -224,3 +224,48 @@ class Japanese extends PersonClass{
 }
 const natallie = new Japanese('Natallie',14,'female');
 console.log(natallie);
+
+//普通のプロパティ操作とgetter,setter,staticの違い
+//普通のプロパティ操作
+const normalPropertyControl = {
+  firstName: "Alice",
+  lastName: "Johnson"
+};
+console.log(normalPropertyControl.firstName);
+normalPropertyControl.lastName = 'Otsuka';
+console.log(normalPropertyControl.lastName); 
+
+//getter,setterを使う場合（classでも使える）
+const normalPropertyControl2 = {
+  firstName: "Alice",
+  lastName: "Johnson",
+
+  get fullName(){
+    return `${this.firstName} ${this.lastName}`;
+  },
+
+  set fullName(name) {
+    const parts = name.split(" ");
+    this.firstName = parts[0];
+    this.lastName = parts[1];
+  }
+}
+console.log(normalPropertyControl2.fullName); 
+
+//1つのオブジェクト内に複数のメソッドがあり
+//メソッドにreturn thisが書いてあれば、
+//チェーンメソッドにできる
+
+const tryChainMethod = {
+  hello(person){
+    console.log(`hello ${person}`);
+    return this;
+  },
+  bye(person){
+    console.log(`bye ${person}`);
+    return this;
+  }
+}
+
+tryChainMethod.hello('Yo Saito')
+  .bye('Erika Maebara')
