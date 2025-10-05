@@ -269,3 +269,24 @@ const tryChainMethod = {
 
 tryChainMethod.hello('Yo Saito')
   .bye('Erika Maebara')
+
+// for in 列挙型
+const s = Symbol(); //symbolはenumerable:trueでも列挙されない
+const obj = {
+  prop1: 'value1',
+  prop2: 'value2',
+  prop3: 'value3',
+  [s]: 'symbol_value' //変数をpropertyの値にしたい時は[]で囲む
+}
+
+Object.prototype.method = function(){}; //プロトタイプチェーンも拾ってきて列挙してしまう
+//列挙しないように設定する方法１
+// Object.defineProperty(Object.prototype,'method',{
+//   enumerable: false 
+// })
+
+for(let key in obj){
+  if (obj.hasOwnProperty(key)){ //列挙しないように設定する方法２
+    console.log(key, obj[key]); //enumerable:falseの場合と、hasOwnPropertyじゃない場合と、symboleは出力されない
+  }; 
+}
