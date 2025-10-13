@@ -290,3 +290,46 @@ for(let key in obj){
     console.log(key, obj[key]); //enumerable:falseの場合と、hasOwnPropertyじゃない場合と、symboleは出力されない
   }; 
 }
+
+//for ofは、
+const forOfArry = ['a','b','c'];
+
+forOfArry[4] = 'e'; //[3]はundefinedで返す
+
+Object.defineProperty(forOfArry,0,{
+  enumerable:false //enumerableがfalseでも、for ofでは返ってくる
+})
+
+for(let v of forOfArry){
+  console.log(v);
+}
+
+const map = new Map();
+
+const keyMap1 = {};
+map.set(keyMap1,'value1');
+console.log(map.get(keyMap1));
+
+let keyMap2;
+map.set(keyMap2 = 0,'value2');
+console.log(map.get(keyMap2));
+console.log(map.get(0)); //値そのものを参照しているのでkeyの0でも取れる
+
+map.delete(keyMap2);
+console.log(map.get(keyMap2)); //undefined
+
+for (const [k,v] of map){
+  console.log(k,v); //keyと値を取得
+}
+
+for (const k in map){
+  console.log(k); //mapにfor inは使えない
+}
+
+//setの場合
+const set1 = new Set();
+const keySet1 = {};
+set1.add(keySet1);
+for(let k of set1){
+  console.log(k);
+}
